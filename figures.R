@@ -58,10 +58,10 @@ likert(as.data.frame(character_data$funder_mandate), grouping = character_data$f
     scale_x_discrete(labels= my.labels) +
     scale_y_continuous(limits = c(-100, 150), breaks = c(-100, -50, 0, 50, 100), labels = c(100, 50, 0, 50, 100)) +
     theme(axis.text = element_text(family = 'Helvetica', size = 14),
-          axis.title.x = element_text(family = 'Helvetica', size = 14, hjust = .40),
+          axis.title.x = element_text(family = 'Helvetica', size = 14, hjust = .40, vjust = .075),
           axis.line = element_line(),
           panel.background = element_rect(fill = "white", colour = "white"),
-          legend.text = element_text(family = 'Helvetica', size = 14,  margin = margin(r = 60, unit = "pt")),
+          legend.text = element_text(family = 'Helvetica', size = 14,  margin = margin(r = 75, unit = "pt")),
           legend.title = element_blank(),
           plot.margin = margin(t = 5.5, l = 5.5, r = 10, b = 10, "pt"))
 
