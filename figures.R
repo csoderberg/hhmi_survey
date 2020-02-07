@@ -74,10 +74,10 @@ character_data %>%
   mutate(perc = round(100*n/sum(n),0),
          percentage = paste0(perc, '%')) %>%
   ggplot(aes(fill = fct_rev(funder_mandate), x = funder_names, y = perc)) +
-  geom_col(stat = 'identity', position = 'fill') +
+  geom_col(stat = 'identity', position = 'fill', width = .6) +
   geom_text(aes(x = funder_names ,label = percentage), size = 4.938889, position=position_fill(vjust=0.5)) +
   scale_x_discrete(labels= my.labels) +
-  scale_y_continuous(labels=scales::percent) +
+  scale_y_continuous(labels=scales::percent, expand = c(0, 0)) +
   scale_fill_manual(values=c('#058d96', '#00a450','#8ac341','#AAAAAA','#838286')) +
   theme(axis.text = element_text(family = 'Helvetica', size = 14),
         axis.line = element_line(),
@@ -87,5 +87,5 @@ character_data %>%
         legend.position = 'bottom',
         legend.text = element_text(family = 'Helvetica', size = 14,  margin = margin(r = 75, unit = "pt")),
         legend.title = element_blank(),
-        plot.margin = margin(t = 5.5, l = 5.5, r = 10, b = 10, "pt")) +
+        plot.margin = margin(t = 10, l = 5.5, r = 5.5, b = 10, "pt")) +
   guides(fill = guide_legend(reverse = TRUE))
