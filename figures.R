@@ -77,6 +77,7 @@ character_data %>%
   geom_col(stat = 'identity', position = 'fill') +
   geom_text(aes(x = funder_names ,label = percentage), size = 4.938889, position=position_fill(vjust=0.5)) +
   scale_x_discrete(labels= my.labels) +
+  scale_y_continuous(labels=scales::percent) +
   scale_fill_manual(values=c('#058d96', '#00a450','#8ac341','#AAAAAA','#838286')) +
   theme(axis.text = element_text(family = 'Helvetica', size = 14),
         axis.line = element_line(),
