@@ -75,7 +75,7 @@ character_data %>%
          percentage = paste0(perc, '%')) %>%
   ggplot(aes(fill = fct_rev(funder_mandate), x = funder_names, y = perc)) +
   geom_col(stat = 'identity', position = 'fill', width = .6) +
-  geom_text(aes(x = funder_names ,label = percentage), size = 4.938889, position=position_fill(vjust=0.5)) +
+  geom_text(aes(x = funder_names ,label = percentage), size = 4.938889, position=position_fill(vjust=0.5)) + ## 14 * 0.352777778 since this geom_text size is in mm, not pt like microsoft and theme
   scale_x_discrete(labels= my.labels) +
   scale_y_continuous(labels=scales::percent, expand = c(0, 0)) +
   scale_fill_manual(values=c('#058d96', '#00a450','#8ac341','#AAAAAA','#838286')) +
