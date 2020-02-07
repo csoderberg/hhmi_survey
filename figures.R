@@ -2,6 +2,7 @@ library(tidyverse)
 library(osfr)
 library(here)
 library(lubridate)
+library(likert)
 
 ##read in data
 osf_retrieve_file("https://osf.io/9gdfc/") %>%
@@ -37,4 +38,16 @@ character_data <- read_csv(here::here('hhmi_character_response.csv')) %>%
                          level = as.factor(level))
 
 
-##
+## example graph with only top percentages 
+likert(as.data.frame(character_data$funder_mandate), grouping = character_data$funder_names) %>%
+    plot(group.order = levels(character_data$funder_names), 
+         plot.percent.neutral = F, plot.percent.low= F,
+         colors = c('#838286', '#AAAAAA', '#8ac341','#00a450', '#058d96'),
+         text.size = 32, 
+         panel.arrange = 'NULL',
+         axes = FALSE) +
+    theme(axis.text = element_text(family = 'Helvetica', size = 14),
+          axis.line = element_line(),
+          panel.background = element_rect(fill = "white", colour = "white"),
+          legend.text = element_text(family = 'Helvetica', size = 14),
+          legend.title = element_blank())
