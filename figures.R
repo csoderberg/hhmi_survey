@@ -37,8 +37,17 @@ character_data <- read_csv(here::here('hhmi_character_response.csv')) %>%
                                            TRUE ~ 'PI'),
                          level = as.factor(level))
 
+abs_formatter <- function(x) {
+  return(abs(x))
+}
 
 ## example graph with only top percentages 
+my.labels <- c("Hanna Gray\nFellows",
+               "Janelia\nTrainees",
+               "Janelia\nGroup Leaders", 
+               "Investigator\nTrainees",
+               "Investigators")
+
 likert(as.data.frame(character_data$funder_mandate), grouping = character_data$funder_names) %>%
     plot(group.order = levels(character_data$funder_names), 
          plot.percent.neutral = F, plot.percent.low= F,
@@ -46,8 +55,12 @@ likert(as.data.frame(character_data$funder_mandate), grouping = character_data$f
          text.size = 32, 
          panel.arrange = 'NULL',
          axes = FALSE) +
+    scale_x_discrete(labels= my.labels) +
+    scale_y_continuous(limits = c(-100, 150), breaks = c(-100, -50, 0, 50, 100), labels = c(100, 50, 0, 50, 100)) +
     theme(axis.text = element_text(family = 'Helvetica', size = 14),
+          axis.title.x = element_text(family = 'Helvetica', size = 14, hjust = .40),
           axis.line = element_line(),
           panel.background = element_rect(fill = "white", colour = "white"),
           legend.text = element_text(family = 'Helvetica', size = 14),
-          legend.title = element_blank())
+          legend.title = element_blank(),
+          legend.spacing.x = unit(1.0, 'cm'))
