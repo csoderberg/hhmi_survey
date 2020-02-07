@@ -42,13 +42,13 @@ abs_formatter <- function(x) {
 }
 
 ## example graph with only top percentages 
-my.labels <- c("Hanna Gray\nFellows",
-               "Janelia\nTrainees",
-               "Janelia\nGroup Leaders", 
-               "Investigator\nTrainees",
+my.labels <- c("Hanna Gray Fellows\n(early career grantees)",
+               "Janelia Trainees",
+               "Janelia Group Leaders", 
+               "Investigator Trainees",
                "Investigators")
 
-likert(as.data.frame(character_data$funder_mandate), grouping = character_data$funder_names) %>%
+likert(as.data.frame(character_data$funder_mandate), grouping = fct_rev(character_data$funder_names)) %>%
     plot(group.order = levels(character_data$funder_names), 
          plot.percent.neutral = F, plot.percent.low= F,
          colors = c('#838286', '#AAAAAA', '#8ac341','#00a450', '#058d96'),
@@ -76,7 +76,6 @@ character_data %>%
   ggplot(aes(fill = fct_rev(funder_mandate), x = funder_names, y = perc)) +
   geom_col(stat = 'identity', position = 'fill', width = .6) +
   geom_text(aes(x = funder_names ,label = percentage), size = 4.938889, position=position_fill(vjust=0.5)) + ## 14 * 0.352777778 since this geom_text size is in mm, not pt like microsoft and theme
-  scale_x_discrete(labels= my.labels) +
   scale_y_continuous(labels=scales::percent, expand = c(0, 0)) +
   scale_fill_manual(values=c('#058d96', '#00a450','#8ac341','#AAAAAA','#838286')) +
   theme(axis.text = element_text(family = 'Helvetica', size = 14),
