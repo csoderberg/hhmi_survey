@@ -65,4 +65,26 @@ likert(as.data.frame(character_data$funder_mandate), grouping = character_data$f
           legend.title = element_blank(),
           plot.margin = margin(t = 5.5, l = 5.5, r = 10, b = 10, "pt"))
 
-
+## example graph stacked bar with percentages 
+character_data %>%
+  select(funder_names, funder_mandate) %>%
+  filter(!is.na(funder_mandate)) %>%
+  group_by(funder_names, funder_mandate) %>%
+  tally() %>%
+  mutate(perc = round(100*n/sum(n),0),
+         percentage = paste0(perc, '%')) %>%
+  ggplot(aes(fill = fct_rev(funder_mandate), x = funder_names, y = perc)) +
+  geom_col(stat = 'identity', position = 'fill') +
+  geom_text(aes(x = funder_names ,label = percentage), size = 4.938889, position=position_fill(vjust=0.5)) +
+  scale_x_discrete(labels= my.labels) +
+  scale_fill_manual(values=c('#058d96', '#00a450','#8ac341','#AAAAAA','#838286')) +
+  theme(axis.text = element_text(family = 'Helvetica', size = 14),
+        axis.line = element_line(),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        panel.background = element_rect(fill = "white", colour = "white"),
+        legend.position = 'bottom',
+        legend.text = element_text(family = 'Helvetica', size = 14,  margin = margin(r = 75, unit = "pt")),
+        legend.title = element_blank(),
+        plot.margin = margin(t = 5.5, l = 5.5, r = 10, b = 10, "pt")) +
+  guides(fill = guide_legend(reverse = TRUE))
