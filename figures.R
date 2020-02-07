@@ -61,6 +61,8 @@ likert(as.data.frame(character_data$funder_mandate), grouping = character_data$f
           axis.title.x = element_text(family = 'Helvetica', size = 14, hjust = .40),
           axis.line = element_line(),
           panel.background = element_rect(fill = "white", colour = "white"),
-          legend.text = element_text(family = 'Helvetica', size = 14),
+          legend.text = element_text(family = 'Helvetica', size = 14,  margin = margin(r = 60, unit = "pt")),
           legend.title = element_blank(),
-          legend.spacing.x = unit(1.0, 'cm'))
+          plot.margin = margin(t = 5.5, l = 5.5, r = 10, b = 10, "pt"))
+
+
