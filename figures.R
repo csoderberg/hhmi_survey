@@ -26,10 +26,15 @@ character_data <- read_csv(here::here('hhmi_character_response.csv')) %>%
                          communicate_findings = fct_relevel(communicate_findings, "Not at all important", "Slightly important", "Moderately important", "Very important", "Extremely important"),
                          learn_research = fct_relevel(learn_research, "Not at all important", "Slightly important", "Moderately important", "Very important", "Extremely important"),
                          post_preprint = fct_relevel(post_preprint, "Never", 'Rarely', "Sometimes", "Very often", "Always")) %>%
-                  mutate(funder = as.factor(funder),
-                         funder = fct_relevel(funder, "hhmi", "hhmitrainee", "janelia", "janeliatrainee", "hannagreyfellow"),
-                         level = case_when(funder == 'hhmi' | funder == 'janelia' ~ 'PI',
-                                           funder == 'hhmitrainee' | funder == 'janeliatrainee' | funder == 'hannagreyfellow' ~ 'Trainee'))
+                  mutate(funder_names = case_when(funder == 'hhmitrainee' ~ 'Investigator Trainees',
+                                            funder == 'hhmi' ~ 'Investigators',
+                                            funder == 'janeliatrainee' ~ 'Janelia Trainees',
+                                            funder == 'janelia' ~ 'Janelia Group Leader',
+                                            funder == 'hannagreyfellow' ~ 'Hanna Gray Fellows'),
+                         funder_names  = fct_relevel(funder_names , 'Investigators', 'Investigator Trainees', 'Janelia Group Leader', 'Janelia Trainees', 'Hanna Gray Fellows'),
+                         level = case_when(grepl('trainee', funder) | funder == 'hannagreyfellow' ~ 'Trainee',
+                                           TRUE ~ 'PI'),
+                         level = as.factor(level))
 
 
 ##
