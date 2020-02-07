@@ -32,7 +32,7 @@ character_data <- read_csv(here::here('hhmi_character_response.csv')) %>%
                                             funder == 'janeliatrainee' ~ 'Janelia Trainees',
                                             funder == 'janelia' ~ 'Janelia Group Leader',
                                             funder == 'hannagreyfellow' ~ 'Hanna Gray Fellows'),
-                         funder_names  = fct_relevel(funder_names , 'Investigators', 'Investigator Trainees', 'Janelia Group Leader', 'Janelia Trainees', 'Hanna Gray Fellows'),
+                         funder_names  = fct_relevel(funder_names , 'Investigators', 'Janelia Group Leader', 'Investigator Trainees', 'Janelia Trainees', 'Hanna Gray Fellows'),
                          level = case_when(grepl('trainee', funder) | funder == 'hannagreyfellow' ~ 'Trainee',
                                            TRUE ~ 'PI'),
                          level = as.factor(level))
@@ -44,8 +44,8 @@ abs_formatter <- function(x) {
 ## example graph with only top percentages 
 my.labels <- c("Hanna Gray Fellows\n(early career grantees)",
                "Janelia Trainees",
-               "Janelia Group Leaders", 
                "Investigator Trainees",
+               "Janelia Group Leaders", 
                "Investigators")
 
 likert(as.data.frame(character_data$funder_mandate), grouping = fct_rev(character_data$funder_names)) %>%
