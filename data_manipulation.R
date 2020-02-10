@@ -17,6 +17,7 @@ numeric_data <- read_csv(here::here('hhmi_numeric_answers.csv')) %>%
                                level = case_when(funder == 'hhmi' | funder == 'janelia' ~ 'PI',
                                        funder == 'hhmitrainee' | funder == 'janeliatrainee' | funder == 'hannagreyfellow' ~ 'Trainee')) 
 
+## seperately format unipolar & bipolar data
 numeric_data_bipolar <- numeric_data %>%
                             select(StartDate, funder, level, publication_time, influence_hiring, influence_funding, subscription_vs_OA, funder_mandate, preprint_mandate, open_licenses, restrictive_license, id_peerreviewers, open_ided_peerreview, open_peerreview) %>%
                             mutate_at(vars(-c(funder, level, StartDate)), factor, levels=-2:2, ordered=TRUE) %>%
@@ -31,3 +32,25 @@ numeric_data_unipolar <- numeric_data %>%
                                 mutate(funder = as.factor(funder)) %>%
                                 pivot_longer(cols = favors_established:OA_mandate, names_to = 'variable_name', values_to = 'response') %>%
                                 filter(!is.na(response))
+
+## calculate percentages
+bipolar_percentage <- numeric_data_bipolar %>%
+                          group_by(variable_name, funder, response) %>%
+                          tally() %>%
+                          mutate(perc = round(100*n/sum(n),2)) %>%
+                          select(-n) %>%
+                          ungroup() %>%
+                          pivot_wider(names_from = 'funder', values_from = 'perc') %>%
+                          replace(., is.na(.), 0) %>%
+                          arrange(variable_name, response)
+
+unipolar_percentage <- numeric_data_unipolar %>%
+                          group_by(variable_name, funder, response) %>%
+                          tally() %>%
+                          mutate(perc = round(100*n/sum(n),2)) %>%
+                          select(-n) %>%
+                          ungroup() %>%
+                          pivot_wider(names_from = 'funder', values_from = 'perc') %>%
+                          replace(., is.na(.), 0) %>%
+                          arrange(variable_name, response)
+  
