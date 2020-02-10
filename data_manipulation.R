@@ -77,6 +77,8 @@ unipolar_percentage <- left_join(numeric_data_unipolar %>%
                                  by = c('variable_name', 'response'))
 
 # create and format final csv
-percentage_data <- rbind(bipolar_percentage, unipolar_percentage) %>%
-                      select(variable_name, response, hhmi, janelia, hhmitrainee, janeliatrainee, hannagreyfellow, PI, Trainee) %>%
-                      rename(Investigator = hhmi, `Janelia Group Leader` = janelia, `Investigator Trainee` = hhmitrainee, `Janelia Trainee` = janeliatrainee, `Hanna Gray Fellows` = hannagreyfellow)
+rbind(bipolar_percentage, unipolar_percentage) %>%
+    select(variable_name, response, hhmi, janelia, hhmitrainee, janeliatrainee, hannagreyfellow, PI, Trainee) %>%
+    rename(Investigator = hhmi, `Janelia Group Leader` = janelia, `Investigator Trainee` = hhmitrainee, `Janelia Trainee` = janeliatrainee, `Hanna Gray Fellows` = hannagreyfellow) %>%
+    write_csv('aggregate_percent_data.csv')
+
