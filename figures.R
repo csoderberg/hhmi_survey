@@ -48,33 +48,40 @@ my.labels <- c("Hanna Gray Fellows\n(early career grantees)",
                "Janelia Group Leaders", 
                "Investigators")
 
-likert(as.data.frame(character_data$funder_mandate), grouping = fct_rev(character_data$funder_names)) %>%
+plot <- likert(as.data.frame(character_data$funder_mandate), grouping = fct_rev(character_data$funder_names)) %>%
     plot(group.order = levels(character_data$funder_names), 
          plot.percent.neutral = F, plot.percent.low= F,
          colors = c('#838286', '#AAAAAA', '#8ac341','#00a450', '#058d96'),
-         text.size = 11.28889, ## 32 * 0.352777778 since this text.size is in mm, not pt like microsoft and theme
+         text.size = 22.57778, ## 32 * 0.352777778 since this text.size is in mm, not pt like microsoft and theme
          panel.arrange = 'NULL',
          axes = FALSE) +
     scale_x_discrete(labels= my.labels) +
     scale_y_continuous(limits = c(-100, 125), breaks = c(-100, -50, 0, 50, 100), labels = c(100, 50, 0, 50, 100)) +
-    theme(axis.text = element_text(family = 'Helvetica', size = 14),
-          axis.title.x = element_text(family = 'Helvetica', size = 14, hjust = .445, vjust = .075),
+    theme(axis.text = element_text(family = 'Helvetica', size = 28),
+          axis.title.x = element_text(family = 'Helvetica', size = 28, hjust = .445, vjust = .075),
           axis.line = element_line(),
           panel.background = element_rect(fill = "white", colour = "white"),
-          legend.text = element_text(family = 'Helvetica', size = 14,  margin = margin(r = 75, unit = "pt")),
+          legend.text = element_text(family = 'Helvetica', size = 28,  margin = margin(r = 100, unit = "pt")),
           legend.title = element_blank(),
           plot.margin = margin(t = 5.5, l = 5.5, r = 10, b = 10, "pt"))
+
+
+ggsave('test_plot.jpeg', plot, dpi = 600, height = 8, width = 24, units = 'in')
+
+
+
 
 ## example graph stacked bar with percentages 
 character_data %>%
   select(funder_names, funder_mandate) %>%
+  filter(funder_names != 'Hanna Gray Fellows') %>%
   filter(!is.na(funder_mandate)) %>%
   group_by(funder_names, funder_mandate) %>%
   tally() %>%
   mutate(perc = round(100*n/sum(n),0),
          percentage = paste0(perc, '%')) %>%
   ggplot(aes(fill = fct_rev(funder_mandate), x = funder_names, y = perc)) +
-  geom_col(stat = 'identity', position = 'fill', width = .6) +
+  geom_col(stat = 'identity', position = 'fill', width = .5) +
   geom_text(aes(x = funder_names ,label = percentage), size = 4.938889, position=position_fill(vjust=0.5)) + ## 14 * 0.352777778 since this geom_text size is in mm, not pt like microsoft and theme
   scale_y_continuous(labels=scales::percent, expand = c(0, 0)) +
   scale_fill_manual(values=c('#058d96', '#00a450','#8ac341','#AAAAAA','#838286')) +
@@ -87,4 +94,5 @@ character_data %>%
         legend.text = element_text(family = 'Helvetica', size = 14,  margin = margin(r = 75, unit = "pt")),
         legend.title = element_blank(),
         plot.margin = margin(t = 10, l = 5.5, r = 5.5, b = 10, "pt")) +
+  coord_flip() +
   guides(fill = guide_legend(reverse = TRUE))
