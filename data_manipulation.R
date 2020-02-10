@@ -34,23 +34,45 @@ numeric_data_unipolar <- numeric_data %>%
                                 filter(!is.na(response))
 
 ## calculate percentages
-bipolar_percentage <- numeric_data_bipolar %>%
-                          group_by(variable_name, funder, response) %>%
-                          tally() %>%
-                          mutate(perc = round(100*n/sum(n),2)) %>%
-                          select(-n) %>%
-                          ungroup() %>%
-                          pivot_wider(names_from = 'funder', values_from = 'perc') %>%
-                          replace(., is.na(.), 0) %>%
-                          arrange(variable_name, response)
+bipolar_percentage <- left_join(numeric_data_bipolar %>%
+                                    group_by(variable_name, funder, response) %>%
+                                    tally() %>%
+                                    mutate(perc = round(100*n/sum(n),2)) %>%
+                                    select(-n) %>%
+                                    ungroup() %>%
+                                    pivot_wider(names_from = 'funder', values_from = 'perc') %>%
+                                    replace(., is.na(.), 0) %>%
+                                    arrange(variable_name, response),
+                                numeric_data_bipolar %>%
+                                  filter(funder != 'hannagreyfellow' | (funder == 'hannagreyfellow' & StartDate < '2019-11-08')) %>%
+                                  group_by(variable_name, level, response) %>%
+                                  tally() %>%
+                                  mutate(perc = round(100*n/sum(n),2)) %>%
+                                  select(-n) %>%
+                                  ungroup() %>%
+                                  pivot_wider(names_from = 'level', values_from = 'perc') %>%
+                                  replace(., is.na(.), 0) %>%
+                                  arrange(variable_name, response),
+                                by = c('variable_name', 'response'))
 
-unipolar_percentage <- numeric_data_unipolar %>%
-                          group_by(variable_name, funder, response) %>%
-                          tally() %>%
-                          mutate(perc = round(100*n/sum(n),2)) %>%
-                          select(-n) %>%
-                          ungroup() %>%
-                          pivot_wider(names_from = 'funder', values_from = 'perc') %>%
-                          replace(., is.na(.), 0) %>%
-                          arrange(variable_name, response)
-  
+unipolar_percentage <- left_join(numeric_data_unipolar %>%
+                                    group_by(variable_name, funder, response) %>%
+                                    tally() %>%
+                                    mutate(perc = round(100*n/sum(n),2)) %>%
+                                    select(-n) %>%
+                                    ungroup() %>%
+                                    pivot_wider(names_from = 'funder', values_from = 'perc') %>%
+                                    replace(., is.na(.), 0) %>%
+                                    arrange(variable_name, response),
+                                 numeric_data_unipolar %>%
+                                   filter(funder != 'hannagreyfellow' | (funder == 'hannagreyfellow' & StartDate < '2019-11-08')) %>%
+                                   group_by(variable_name, level, response) %>%
+                                   tally() %>%
+                                   mutate(perc = round(100*n/sum(n),2)) %>%
+                                   select(-n) %>%
+                                   ungroup() %>%
+                                   pivot_wider(names_from = 'level', values_from = 'perc') %>%
+                                   replace(., is.na(.), 0) %>%
+                                   arrange(variable_name, response),
+                                 by = c('variable_name', 'response'))
+
