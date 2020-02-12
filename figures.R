@@ -68,6 +68,25 @@ plot <- likert(as.data.frame(character_data$funder_mandate), grouping = fct_rev(
 
 ggsave('test_plot.jpeg', plot, dpi = 600, height = 8, width = 24, units = 'in')
 
+## large graph
+png(file = 'testplot.png', width = 1340, height = 1004, res = 72)
+likert(as.data.frame(character_data$funder_mandate), grouping = fct_rev(character_data$funder_names)) %>%
+  plot(group.order = levels(character_data$funder_names), 
+       plot.percent.neutral = F, plot.percent.low= F,
+       colors = c('#838286', '#AAAAAA', '#8ac341','#00a450', '#058d96'),
+       text.size = 16.93333, ## 48 * 0.352777778 since this text.size is in mm, not pt like microsoft and theme
+       panel.arrange = 'NULL',
+       axes = FALSE) +
+  scale_x_discrete(labels= my.labels) +
+  scale_y_continuous(limits = c(-100, 125), breaks = c(-100, -50, 0, 50, 100), labels = c(100, 50, 0, 50, 100)) +
+  theme(axis.text = element_text(family = 'Helvetica', size = 22),
+        axis.title.x = element_text(family = 'Helvetica', size = 22, hjust = .445, vjust = .075),
+        axis.line = element_line(),
+        panel.background = element_rect(fill = "white", colour = "white"),
+        legend.text = element_text(family = 'Helvetica', size = 22,  margin = margin(r = 50, unit = "pt")),
+        legend.title = element_blank(),
+        plot.margin = margin(t = 557, l = 30, r = 30, b = 10, "pt"))
+dev.off()
 
 ## example graph with 2 bars
 plot_2bar <- likert(as.data.frame(character_data$funder_mandate), grouping = fct_rev(character_data$level)) %>%
