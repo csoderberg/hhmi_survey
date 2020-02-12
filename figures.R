@@ -37,6 +37,55 @@ character_data <- read_csv(here::here('hhmi_character_response.csv')) %>%
                                            TRUE ~ 'PIs'),
                          level = as.factor(level))
 
+
+# function to create likert data frame - code taken from likert package to allow for specific plotting later
+likert_perc <- function(data, grouping){
+  nlevels <- length(levels(data))
+  lowrange <- 1 : ceiling(nlevels / 2 - nlevels %% 2)
+  highrange <- ceiling(nlevels / 2 + 1 ) : nlevels
+  
+  results <- data.frame(
+    Group = rep(unique(grouping), each=nlevels),
+    Response = rep(1:nlevels, length(unique(grouping)))
+  )
+  
+  for(i in 1:ncol(items)) {
+    t <- as.data.frame(table(grouping, items[,i]))
+    t <- reshape2::dcast(t, Var2 ~ grouping, value.var='Freq', add.missing=TRUE)
+    t <- cbind(Response=t[,1], 
+               apply(t[,2:ncol(t)], 2, FUN=function(x) { x / sum(x) * 100 } )
+    )
+    t <- reshape2::melt(t)
+    results <- merge(results, t, 
+                     by.x=c('Group','Response'), by.y=c('Var2','Var1'), 
+                     all.x=TRUE)
+    names(results)[ncol(results)] <- paste0('Col', i)
+  }
+  
+  names(results)[3:ncol(results)] <- names(items)
+  
+  results$Response <- factor(results$Response, levels=1:nlevels, 
+                             labels=levels(items[,i]))
+  results <- reshape2::melt(results, id=c('Group', 'Response'))
+  results <- reshape2::dcast(results, Group + variable ~ Response)
+  results <- as.data.frame(results)
+  names(results)[2] <- 'Item'
+  
+  for(i in 3:ncol(results)) {
+    narows <- which(is.na(results[,i]))
+    if(length(narows) > 0) {
+      results[narows, i] <- 0
+    }
+  }
+  
+  r <- list(results=results, items=items, grouping=grouping, nlevels=nlevels, levels=levels(items[,1]))
+  return(r)
+}
+
+
+
+
+
 ## example graph with only top percentages 
 my.labels <- c("Hanna Gray\nFellows",
                "Janelia\nTrainees",
