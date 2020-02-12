@@ -33,7 +33,7 @@ character_data <- read_csv(here::here('hhmi_character_response.csv')) %>%
                                             funder == 'janelia' ~ 'Janelia Group Leader',
                                             funder == 'hannagreyfellow' ~ 'Hanna Gray Fellows'),
                          funder_names  = fct_relevel(funder_names , 'Investigators', 'Janelia Group Leader', 'Investigator Trainees', 'Janelia Trainees', 'Hanna Gray Fellows'),
-                         level = case_when(grepl('trainee', funder) | funder == 'hannagreyfellow' ~ 'Trainee',
+                         level = case_when(grepl('trainee', funder) | funder == 'hannagreyfellow' ~ 'Trainees',
                                            TRUE ~ 'PIs'),
                          level = as.factor(level))
 
@@ -130,7 +130,7 @@ likert(as.data.frame(character_data$funder_mandate), grouping = fct_rev(characte
         panel.background = element_rect(fill = "white", colour = "white"),
         legend.text = element_text(family = 'Helvetica', size = 22,  margin = margin(r = 60, unit = "pt")),
         legend.title = element_blank(),
-        plot.margin = margin(t = 756, l = 30, r = 30, b = 10, "pt"))
+        plot.margin = margin(t = 756, l = 178, r = 30, b = 10, "pt"))
 dev.off()
 
 
