@@ -34,12 +34,8 @@ character_data <- read_csv(here::here('hhmi_character_response.csv')) %>%
                                             funder == 'hannagreyfellow' ~ 'Hanna Gray Fellows'),
                          funder_names  = fct_relevel(funder_names , 'Investigators', 'Janelia Group Leader', 'Investigator Trainees', 'Janelia Trainees', 'Hanna Gray Fellows'),
                          level = case_when(grepl('trainee', funder) | funder == 'hannagreyfellow' ~ 'Trainee',
-                                           TRUE ~ 'PI'),
+                                           TRUE ~ 'PIs'),
                          level = as.factor(level))
-
-abs_formatter <- function(x) {
-  return(abs(x))
-}
 
 ## example graph with only top percentages 
 my.labels <- c("Hanna Gray Fellows\n(early career grantees)",
