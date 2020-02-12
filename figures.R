@@ -38,10 +38,10 @@ character_data <- read_csv(here::here('hhmi_character_response.csv')) %>%
                          level = as.factor(level))
 
 ## example graph with only top percentages 
-my.labels <- c("Hanna Gray Fellows\n(early career grantees)",
-               "Janelia Trainees",
-               "Investigator Trainees",
-               "Janelia Group Leaders", 
+my.labels <- c("Hanna Gray\nFellows",
+               "Janelia\nTrainees",
+               "Investigator\nTrainees",
+               "Janelia\nGroup Leaders", 
                "Investigators")
 
 plot <- likert(as.data.frame(character_data$funder_mandate), grouping = fct_rev(character_data$funder_names)) %>%
@@ -75,7 +75,7 @@ likert(as.data.frame(character_data$funder_mandate), grouping = fct_rev(characte
        axes = FALSE) +
   scale_x_discrete(labels= my.labels) +
   scale_y_continuous(limits = c(-100, 125), breaks = c(-100, -50, 0, 50, 100), labels = c(100, 50, 0, 50, 100)) +
-  theme(axis.text.y = element_text(family = 'Helvetica', size = 22),
+  theme(axis.text.y = element_text(family = 'Helvetica', size = 22, hjust = .5),
         axis.text.x = element_text(family = 'Helvetica', size = 22, margin = margin(t = 4, unit = 'pt')),
         axis.title.x = element_text(family = 'Helvetica', size = 22, hjust = .445, vjust = .075),
         axis.ticks.x = element_line(),
