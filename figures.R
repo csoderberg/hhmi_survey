@@ -84,30 +84,32 @@ likert(as.data.frame(character_data$funder_mandate), grouping = fct_rev(characte
         panel.background = element_rect(fill = "white", colour = "white"),
         legend.text = element_text(family = 'Helvetica', size = 22,  margin = margin(r = 60, unit = "pt")),
         legend.title = element_blank(),
-        plot.margin = margin(t = 557, l = 30, r = 30, b = 10, "pt"))
+        plot.margin = margin(t = 517, l = 30, r = 30, b = 10, "pt"))
 dev.off()
 
 ## small graph
+character_data$funder_mandate <- as.factor(str_wrap(character_data$funder_mandate, 10))
+
 png(file = 'testplot_small.png', width = 670, height = 503, res = 72)
 likert(as.data.frame(character_data$funder_mandate), grouping = fct_rev(character_data$funder_names)) %>%
   plot(group.order = levels(character_data$funder_names), 
        plot.percent.neutral = F, plot.percent.low= F,
        colors = c('#838286', '#AAAAAA', '#8ac341','#00a450', '#058d96'),
-       text.size = 10.58333, ## 30 * 0.352777778 since this text.size is in mm, not pt like microsoft and theme
+       text.size = 9.877778, ## 28 * 0.352777778 since this text.size is in mm, not pt like microsoft and theme
        panel.arrange = 'NULL',
        axes = FALSE) +
   scale_x_discrete(labels= my.labels) +
   scale_y_continuous(limits = c(-100, 125), breaks = c(-100, -50, 0, 50, 100), labels = c(100, 50, 0, 50, 100)) +
-  theme(axis.text.y = element_text(family = 'Helvetica', size = 14),
-        axis.text.x = element_text(family = 'Helvetica', size = 14, margin = margin(t = 2, unit = 'pt')),
-        axis.title.x = element_text(family = 'Helvetica', size = 14, hjust = .445, vjust = .075),
+  theme(axis.text.y = element_text(family = 'Helvetica', size = 12, hjust = .5),
+        axis.text.x = element_text(family = 'Helvetica', size = 12, margin = margin(t = 2, unit = 'pt')),
+        axis.title.x = element_text(family = 'Helvetica', size = 12, hjust = .445, vjust = .075),
         axis.ticks.x = element_line(),
         axis.ticks.length.x = unit(3, 'pt'),
         axis.line = element_line(),
         panel.background = element_rect(fill = "white", colour = "white"),
-        legend.text = element_text(family = 'Helvetica', size = 14,  margin = margin(r = 20, unit = "pt")),
+        legend.text = element_text(family = 'Helvetica', size = 12, margin = margin(r = 20, unit = "pt")),
         legend.title = element_blank(),
-        plot.margin = margin(t = 280, l = 30, r = 30, b = 10, "pt"))
+        plot.margin = margin(t = 200, l = 30, r = 30, b = 10, "pt"))
 dev.off()
 
 
@@ -121,7 +123,7 @@ likert(as.data.frame(character_data$funder_mandate), grouping = fct_rev(characte
        panel.arrange = 'NULL',
        axes = FALSE) +
   scale_y_continuous(limits = c(-100, 125), breaks = c(-100, -50, 0, 50, 100), labels = c(100, 50, 0, 50, 100)) +
-  theme(axis.text.y = element_text(family = 'Helvetica', size = 22),
+  theme(axis.text.y = element_text(family = 'Helvetica', size = 22, hjust = .5),
         axis.text.x = element_text(family = 'Helvetica', size = 22, margin = margin(t = 4, unit = 'pt')),
         axis.title.x = element_text(family = 'Helvetica', size = 22, hjust = .445, vjust = .075),
         axis.ticks.x = element_line(),
@@ -130,7 +132,7 @@ likert(as.data.frame(character_data$funder_mandate), grouping = fct_rev(characte
         panel.background = element_rect(fill = "white", colour = "white"),
         legend.text = element_text(family = 'Helvetica', size = 22,  margin = margin(r = 60, unit = "pt")),
         legend.title = element_blank(),
-        plot.margin = margin(t = 756, l = 167, r = 30, b = 10, "pt"))
+        plot.margin = margin(t = 756, l = 92, r = 30, b = 10, "pt"))
 dev.off()
 
 ## small 2 bar graph
