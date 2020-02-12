@@ -82,8 +82,58 @@ likert_perc <- function(data, grouping){
   return(r)
 }
 
+# set up function to create basic plot (adapted from likert package)
+likert_bar_plot <- function(l, group.order, center = (l$nlevels-1)/2 + 1, colors, text.size, nlegend_char, ngroup_char) {
+  ymin <- -100
+  ymax <- 100
+  ybuffer <- 5
+  
+  lowrange <- 1 : floor(center - 0.5)
+  highrange <- ceiling(center + 0.5) : l$nlevels
+  cols <- colors
+  
+  p <- NULL
+  
+  results <- l$results
+  results <- reshape2::melt(results, id=c('Group', 'Item'))
+  levels(results$variable) <- str_wrap(levels(results$variable),nlegend_char)
+  levels(results$Group) <- str_wrap(levels(results$Group),ngroup_char)
+  
+  top_perc <- results %>%
+    select(-Item) %>%
+    pivot_wider(names_from = variable, values_from = value) %>%
+    mutate(above_midline = round(rowSums(.[5:6]),0)) %>%
+    select(Group, above_midline)
+  
+  rows <- which(results$variable %in% levels(results$variable)[1:2])
+  results[rows,'value'] <- -1 * results[rows,'value']
+  rows.mid <- which(results$variable %in% levels(results$variable)[3])
+  tmp <- results[rows.mid,]
+  tmp$value <- tmp$value / 2 * -1
+  results[rows.mid,'value'] <- results[rows.mid,'value'] / 2
+  results <- rbind(results, tmp)
+  
+  results.low <- results[results$value < 0,]
+  results.high <- results[results$value > 0,]
+  
+  results.high$variable <- factor(as.character(results.high$variable),
+                                  levels = rev(levels(results.high$variable)))
+  
+  p <- ggplot(results, aes(y=value, x=Group, group=variable)) + 
+    geom_hline(yintercept=0) +
+    geom_bar(data=results.low[nrow(results.low):1,], 
+             aes(fill=variable), stat='identity') + 
+    geom_bar(data=results.high, aes(fill=variable), stat='identity')
+  
+  names(cols) <- levels(results$variable)
+  plot <- p + 
+        scale_fill_manual(guide = 'legend', breaks=names(cols), values=cols, drop=FALSE) +
+        geom_text(data=top_perc, aes(x=Group, y=100, 
+                             label=paste0(above_midline, '%'), 
+                             group=Group), size=text.size, hjust=-.2, color='black') +
+    coord_flip()
 
-
+}
 
 
 ## example graph with only top percentages 
