@@ -83,10 +83,10 @@ likert(as.data.frame(character_data$funder_mandate), grouping = fct_rev(characte
         axis.text.x = element_text(family = 'Helvetica', size = 22, margin = margin(t = 4, unit = 'pt')),
         axis.title.x = element_text(family = 'Helvetica', size = 22, hjust = .445, vjust = .075),
         axis.ticks.x = element_line(),
-        axis.ticks.length.x = unit(4, 'pt'),
+        axis.ticks.length.x = unit(6, 'pt'),
         axis.line = element_line(),
         panel.background = element_rect(fill = "white", colour = "white"),
-        legend.text = element_text(family = 'Helvetica', size = 22,  margin = margin(r = 50, unit = "pt")),
+        legend.text = element_text(family = 'Helvetica', size = 22,  margin = margin(r = 60, unit = "pt")),
         legend.title = element_blank(),
         plot.margin = margin(t = 557, l = 30, r = 30, b = 10, "pt"))
 dev.off()
