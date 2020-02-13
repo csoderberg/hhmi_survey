@@ -84,7 +84,7 @@ likert_perc <- function(data, grouping){
 
 # set up function to create basic plot (adapted from likert package)
 likert_bar_plot <- function(l, group.order, center = (l$nlevels-1)/2 + 1, colors, geom_textsize, theme_textsize, 
-                            nlegend_char, ngroup_char, xaxis_margin, xaxis_ticks, legend_margin, plot_margin_top, bar_width) {
+                            nlegend_char, ngroup_char, xaxis_margin, xaxis_ticks, legend_margin, plot_margin_top, plot_left_margin, bar_width) {
   ymin <- -100
   ymax <- 100
   ybuffer <- 5
@@ -145,7 +145,7 @@ likert_bar_plot <- function(l, group.order, center = (l$nlevels-1)/2 + 1, colors
           legend.position = 'bottom',
           legend.text = element_text(family = 'Helvetica', size = theme_textsize,  margin = margin(r = legend_margin, unit = "pt")),
           legend.title = element_blank(),
-          plot.margin = margin(t = plot_margin_top, l = 30, r = 30, b = 10, "pt"))
+          plot.margin = margin(t = plot_margin_top, l = plot_left_margin, r = 30, b = 10, "pt"))
   
   return(plot)
 }
@@ -161,7 +161,7 @@ test_plot <- likert_bar_plot(likert_data,
                 theme_textsize = 22, 
                 nlegend_char = 10, ngroup_char = 12, 
                 xaxis_margin = 4, xaxis_ticks = 6, 
-                legend_margin = 60, plot_margin_top = 5.5,
+                legend_margin = 60, plot_margin_top = 5.5, plot_left_margin = 30,
                 bar_width = .5)
 
 png(file = 'testplot.png', width = 1340, height = 1004, res = 72)
@@ -178,12 +178,31 @@ test_plot_small <- likert_bar_plot(likert_data,
                              theme_textsize = 14, 
                              nlegend_char = 10, ngroup_char = 12, 
                              xaxis_margin = 2, xaxis_ticks = 3, 
-                             legend_margin = 20, plot_margin_top = 5.5,
+                             legend_margin = 20, plot_margin_top = 5.5, plot_left_margin = 30,
                              bar_width = .5)
 
 png(file = 'testplot_small.png', width = 670, height = 503, res = 72)
 test_plot_small
 dev.off()
+
+
+## large 2 bar graph example
+likert_data <- likert_perc(character_data$funder_mandate, grouping = character_data$level)
+test_plot <- likert_bar_plot(likert_data, 
+                             group.order = levels(character_data$level), 
+                             center = (l$nlevels-1)/2 + 1, 
+                             colors = c('#838286', '#AAAAAA', '#8ac341','#00a450', '#058d96'), 
+                             geom_textsize = 16.93333, #48 * 0.352777778 since this text.size is in mm, not pt like microsoft and theme 
+                             theme_textsize = 22, 
+                             nlegend_char = 10, ngroup_char = 12, 
+                             xaxis_margin = 4, xaxis_ticks = 6, 
+                             legend_margin = 60, plot_margin_top = 506, plot_left_margin = 81,
+                             bar_width = .5)
+
+png(file = 'testplot_2bar.png', width = 1340, height = 1004, res = 72)
+test_plot
+dev.off()
+
 
 ## large graph
 png(file = 'testplot.png', width = 1340, height = 1004, res = 72)
