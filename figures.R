@@ -176,7 +176,7 @@ likert_bar_plot <- function(l, group.order, center = (l$nlevels-1)/2 + 1, colors
   return(plot)
 }
 
-
+# function for large 5 bar graphs
 large_graph_5bar <- function(variable){
   likert_data <- likert_perc(character_data[[variable]], grouping = character_data$funder_names)
   large_5bar_plot <- likert_bar_plot(likert_data, 
@@ -197,7 +197,26 @@ large_graph_5bar <- function(variable){
   dev.off()
 }
 
-large_graph_5bar(character_data$funder_names)
+# function for large 2bar graphs
+large_graph_2bar <- function(variable) {
+  likert_data <- likert_perc(character_data[[variable]], grouping = character_data$level)
+  large_2bar_plot <- likert_bar_plot(likert_data, 
+                               group.order = levels(character_data$level), 
+                               center = (l$nlevels-1)/2 + 1, 
+                               colors = c('#838286', '#AAAAAA', '#8ac341','#00a450', '#058d96'), 
+                               geom_textsize = 16.93333, #48 * 0.352777778 since this text.size is in mm, not pt like microsoft and theme 
+                               theme_textsize = 22, 
+                               nlegend_char = 10, ngroup_char = 12, 
+                               xaxis_margin = 4, xaxis_ticks = 6, 
+                               legend_margin = 60, plot_margin_top = 506, plot_left_margin = 81,
+                               bar_width = .5)
+  
+  file_name <- paste0(variable, 'large_2bar.png')
+  
+  png(file = file_name, width = 1340, height = 1004, res = 72)
+  print(large_2bar_plot)
+  dev.off()
+}
 
 ## large 5-bar graph with new function
 
