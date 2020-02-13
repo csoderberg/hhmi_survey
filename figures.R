@@ -204,6 +204,29 @@ test_plot
 dev.off()
 
 
+## small 2 bar graph example
+test_plot_2bar_small <- likert_bar_plot(likert_data, 
+                             group.order = levels(character_data$level), 
+                             center = (l$nlevels-1)/2 + 1, 
+                             colors = c('#838286', '#AAAAAA', '#8ac341','#00a450', '#058d96'), 
+                             geom_textsize = 10.58333, #30 * 0.352777778 since this text.size is in mm, not pt like microsoft and theme 
+                             theme_textsize = 14, 
+                             nlegend_char = 10, ngroup_char = 12, 
+                             xaxis_margin = 2, xaxis_ticks = 3, 
+                             legend_margin = 20, plot_margin_top = 240, plot_left_margin = 62,
+                             bar_width = .5)
+
+png(file = 'testplot_2bar_small.png', width = 670, height = 503, res = 72)
+test_plot_2bar_small
+dev.off()
+
+
+
+
+
+
+
+
 ## large graph
 png(file = 'testplot.png', width = 1340, height = 1004, res = 72)
 likert(as.data.frame(character_data$funder_mandate), grouping = fct_rev(character_data$funder_names)) %>%
