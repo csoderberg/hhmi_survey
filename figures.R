@@ -150,6 +150,39 @@ likert_bar_plot <- function(l, group.order, center = (l$nlevels-1)/2 + 1, colors
   return(plot)
 }
 
+## large 5-bar graph with new function
+
+likert_data <- likert_perc(character_data$funder_mandate, grouping = character_data$funder_names)
+test_plot <- likert_bar_plot(likert_data, 
+                group.order = levels(character_data$funder_names), 
+                center = (l$nlevels-1)/2 + 1, 
+                colors = c('#838286', '#AAAAAA', '#8ac341','#00a450', '#058d96'), 
+                geom_textsize = 16.93333, #48 * 0.352777778 since this text.size is in mm, not pt like microsoft and theme 
+                theme_textsize = 22, 
+                nlegend_char = 10, ngroup_char = 12, 
+                xaxis_margin = 4, xaxis_ticks = 6, legend_margin = 60, 
+                bar_width = .5)
+
+png(file = 'testplot.png', width = 1340, height = 1004, res = 72)
+test_plot
+dev.off()
+
+
+## small 5-bar graph with new function
+test_plot_small <- likert_bar_plot(likert_data, 
+                             group.order = levels(character_data$funder_names), 
+                             center = (l$nlevels-1)/2 + 1, 
+                             colors = c('#838286', '#AAAAAA', '#8ac341','#00a450', '#058d96'), 
+                             geom_textsize = 10.58333, #30 * 0.352777778 since this text.size is in mm, not pt like microsoft and theme 
+                             theme_textsize = 14, 
+                             nlegend_char = 10, ngroup_char = 12, 
+                             xaxis_margin = 2, xaxis_ticks = 3, legend_margin = 20, 
+                             bar_width = .5)
+
+png(file = 'testplot_small.png', width = 670, height = 503, res = 72)
+test_plot_small
+dev.off()
+
 ## large graph
 png(file = 'testplot.png', width = 1340, height = 1004, res = 72)
 likert(as.data.frame(character_data$funder_mandate), grouping = fct_rev(character_data$funder_names)) %>%
