@@ -146,6 +146,8 @@ likert_bar_plot <- function(l, group.order, center = (l$nlevels-1)/2 + 1, colors
           legend.text = element_text(family = 'Helvetica', size = theme_textsize,  margin = margin(r = legend_margin, unit = "pt")),
           legend.title = element_blank(),
           plot.margin = margin(t = 5.5, l = 30, r = 30, b = 10, "pt"))
+  
+  return(plot)
 }
 
 
