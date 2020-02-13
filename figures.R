@@ -83,8 +83,8 @@ likert_perc <- function(data, grouping){
 }
 
 # set up function to create basic plot (adapted from likert package)
-likert_bar_plot <- function(l, group.order, center = (l$nlevels-1)/2 + 1, colors, geom_textsize, 
-                            nlegend_char, ngroup_char,xaxis_margin, xaxis_ticks, legend_margin, bar_width) {
+likert_bar_plot <- function(l, group.order, center = (l$nlevels-1)/2 + 1, colors, geom_textsize, theme_textsize, 
+                            nlegend_char, ngroup_char, xaxis_margin, xaxis_ticks, legend_margin, bar_width) {
   ymin <- -100
   ymax <- 100
   ybuffer <- 5
@@ -134,16 +134,16 @@ likert_bar_plot <- function(l, group.order, center = (l$nlevels-1)/2 + 1, colors
     coord_flip() +
     ylab('Percent') +
     scale_y_continuous(limits = c(-100, 125), breaks = c(-100, -50, 0, 50, 100), labels = c(100, 50, 0, 50, 100)) +
-    theme(axis.text.y = element_text(family = 'Helvetica', size = 22, hjust = .5),
-          axis.text.x = element_text(family = 'Helvetica', size = 22, margin = margin(t = 4, unit = 'pt')),
+    theme(axis.text.y = element_text(family = 'Helvetica', size = theme_textsize, hjust = .5),
+          axis.text.x = element_text(family = 'Helvetica', size = theme_textsize, margin = margin(t = xaxis_margin, unit = 'pt')),
           axis.title.y = element_blank(),
-          axis.title.x = element_text(family = 'Helvetica', size = 22, hjust = .445, vjust = .075),
+          axis.title.x = element_text(family = 'Helvetica', size = theme_textsize, hjust = .445, vjust = .075),
           axis.ticks.x = element_line(),
-          axis.ticks.length.x = unit(6, 'pt'),
+          axis.ticks.length.x = unit(xaxis_ticks, 'pt'),
           axis.line = element_line(),
           panel.background = element_rect(fill = "white", colour = "white"),
           legend.position = 'bottom',
-          legend.text = element_text(family = 'Helvetica', size = 22,  margin = margin(r = 60, unit = "pt")),
+          legend.text = element_text(family = 'Helvetica', size = theme_textsize,  margin = margin(r = legend_margin, unit = "pt")),
           legend.title = element_blank(),
           plot.margin = margin(t = 5.5, l = 30, r = 30, b = 10, "pt"))
 }
