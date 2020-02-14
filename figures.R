@@ -192,7 +192,7 @@ graph_5bar <- function(variable){
   
   large_5bar_plot <- likert_bar_plot(likert_data, 
                                      group.order = levels(character_data$funder_names), 
-                                     center = (l$nlevels-1)/2 + 1, 
+                                     center = (likert_data$nlevels-1)/2 + 1, 
                                      colors = c('#838286', '#AAAAAA', '#8ac341','#00a450', '#058d96'), 
                                      geom_textsize = 16.93333, #48 * 0.352777778 since this text.size is in mm, not pt like microsoft and theme 
                                      theme_textsize = 22, 
@@ -203,7 +203,7 @@ graph_5bar <- function(variable){
   
   small_5bar_plot <- likert_bar_plot(likert_data, 
                                      group.order = levels(character_data$funder_names), 
-                                     center = (l$nlevels-1)/2 + 1, 
+                                     center = (likert_data$nlevels-1)/2 + 1, 
                                      colors = c('#838286', '#AAAAAA', '#8ac341','#00a450', '#058d96'), 
                                      geom_textsize = 10.58333, #30 * 0.352777778 since this text.size is in mm, not pt like microsoft and theme 
                                      theme_textsize = 14, 
@@ -229,7 +229,7 @@ graph_2bar <- function(variable) {
   likert_data <- likert_perc(character_data[[variable]], grouping = character_data$level)
   large_2bar_plot <- likert_bar_plot(likert_data, 
                                group.order = levels(character_data$level), 
-                               center = (l$nlevels-1)/2 + 1, 
+                               center = (likert_data$nlevels-1)/2 + 1, 
                                colors = c('#838286', '#AAAAAA', '#8ac341','#00a450', '#058d96'), 
                                geom_textsize = 16.93333, #48 * 0.352777778 since this text.size is in mm, not pt like microsoft and theme 
                                theme_textsize = 22, 
@@ -243,7 +243,7 @@ graph_2bar <- function(variable) {
   
   small_2bar_plot <- likert_bar_plot(likert_data, 
                                           group.order = levels(character_data$level), 
-                                          center = (l$nlevels-1)/2 + 1, 
+                                          center = (likert_data$nlevels-1)/2 + 1, 
                                           colors = c('#838286', '#AAAAAA', '#8ac341','#00a450', '#058d96'), 
                                           geom_textsize = 10.58333, #30 * 0.352777778 since this text.size is in mm, not pt like microsoft and theme 
                                           theme_textsize = 14, 
@@ -329,7 +329,7 @@ dev.off()
 ## small 2 bar graph example
 test_plot_2bar_small <- likert_bar_plot(likert_data, 
                              group.order = levels(character_data$level), 
-                             center = (l$nlevels-1)/2 + 1, 
+                             center = (likert_data$nlevels-1)/2 + 1, 
                              colors = c('#838286', '#AAAAAA', '#8ac341','#00a450', '#058d96'), 
                              geom_textsize = 10.58333, #30 * 0.352777778 since this text.size is in mm, not pt like microsoft and theme 
                              theme_textsize = 14, 
@@ -449,7 +449,7 @@ graph_5bar_longlegends <- function(variable, legend_chars){
   
   large_5bar_plot <- likert_bar_plot(likert_data, 
                                      group.order = levels(character_data$funder_names), 
-                                     center = (l$nlevels-1)/2 + 1, 
+                                     center = (likert_data$nlevels-1)/2 + 1, 
                                      colors = c('#838286', '#AAAAAA', '#8ac341','#00a450', '#058d96'), 
                                      geom_textsize = 16.93333, #48 * 0.352777778 since this text.size is in mm, not pt like microsoft and theme 
                                      theme_textsize = 22, 
@@ -460,7 +460,7 @@ graph_5bar_longlegends <- function(variable, legend_chars){
   
   small_5bar_plot <- likert_bar_plot(likert_data, 
                                      group.order = levels(character_data$funder_names), 
-                                     center = (l$nlevels-1)/2 + 1, 
+                                     center = (likert_data$nlevels-1)/2 + 1, 
                                      colors = c('#838286', '#AAAAAA', '#8ac341','#00a450', '#058d96'), 
                                      geom_textsize = 10.58333, #30 * 0.352777778 since this text.size is in mm, not pt like microsoft and theme 
                                      theme_textsize = 14, 
