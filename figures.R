@@ -267,7 +267,7 @@ graph_2bar <- function(variable) {
 
 
 # calls to create graphs broken out by 5 funder categories
-variables_5bars <- names(character_data)[2:43]
+variables_5bars <- names(character_data)[2:42]
 variables_5bars <- variables_5bars[!grepl('proportion_OA_1', variables_5bars)]
 map(variables_5bars, graph_5bar)
 
