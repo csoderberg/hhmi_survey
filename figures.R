@@ -5,14 +5,10 @@ library(lubridate)
 library(likert)
 
 ##read in data
-osf_retrieve_file("https://osf.io/9gdfc/") %>%
+osf_retrieve_file("https://osf.io/zuxy9/") %>%
   osf_download(overwrite = T)
 
-character_data <- read_csv(here::here('hhmi_character_response.csv')) %>%
-                  select(-c('Progress', 'RecordedDate', 'DistributionChannel', 'Finished', 'UserLanguage', 'ResponseId', 'country', 'num_articles', 'career_level', 'career_level_8_TEXT'), 
-                         -starts_with('Duration')) %>%
-                  mutate(StartDate = mdy_hm(StartDate),
-                         EndDate = mdy_hm(EndDate)) %>%
+character_data <- read_csv(here::here('character_graph_data.csv')) %>%
                   mutate(publication_time = fct_relevel(publication_time, "Much too short", "Slightly too short", 'Just the right amount of time', 'Slightly too long', 'Much too long'),
                          favors_established = fct_recode(favors_established, `Does not at all favor` = "Does not at all favor established scientists", `Slightly favors` = "Slightly favors established scientists",
                                                          `Moderately favors` = "Moderately favors established scientists", `Very much favors` = "Very much favors established scientists", `Extremely favors` = "Extremely favors established scientists"),
@@ -271,7 +267,7 @@ graph_2bar <- function(variable) {
 
 
 # calls to create graphs broken out by 5 funder categories
-variables_5bars <- names(character_data)[4:44]
+variables_5bars <- names(character_data)[2:43]
 variables_5bars <- variables_5bars[!grepl('proportion_OA_1', variables_5bars)]
 map(variables_5bars, graph_5bar)
 
