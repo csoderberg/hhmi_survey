@@ -120,7 +120,7 @@ likert_perc <- function(data, grouping){
 likert_bar_plot <- function(l, group.order, center = (l$nlevels-1)/2 + 1, colors, geom_textsize, theme_textsize, 
                             nlegend_char, ngroup_char, xaxis_margin, xaxis_ticks, legend_margin, 
                             plot_margin_top, plot_left_margin, plot_margin_bottom,
-                            bar_width) {
+                            bar_width, plot_order = 0) {
   ymin <- -100
   ymax <- 100
   ybuffer <- 5
@@ -156,10 +156,18 @@ likert_bar_plot <- function(l, group.order, center = (l$nlevels-1)/2 + 1, colors
   results.high$variable <- factor(as.character(results.high$variable),
                                   levels = rev(levels(results.high$variable)))
   
-  p <- ggplot(results, aes(y=value, x=fct_rev(Group), group=variable)) + 
-    geom_hline(yintercept=0) +
-    geom_bar(data=results.low[nrow(results.low):1,], aes(fill=variable), stat='identity', width = bar_width) + 
-    geom_bar(data=results.high, aes(fill=variable), stat='identity', width = bar_width)
+  if (plot_order == 0) {
+    p <- ggplot(results, aes(y=value, x=fct_rev(Group), group=variable)) + 
+      geom_hline(yintercept=0) +
+      geom_bar(data=results.low[nrow(results.low):1,], aes(fill=variable), stat='identity', width = bar_width) + 
+      geom_bar(data=results.high, aes(fill=variable), stat='identity', width = bar_width)
+  } else {
+    p <- ggplot(results, aes(y=value, x=fct_rev(Group), group=variable)) + 
+      geom_hline(yintercept=0) +
+      geom_bar(data=results.high, aes(fill=variable), stat='identity', width = bar_width)
+      geom_bar(data=results.low[nrow(results.low):1,], aes(fill=variable), stat='identity', width = bar_width) 
+  }
+  
   
   names(cols) <- levels(results$variable)
   plot <- p + 
@@ -187,7 +195,7 @@ likert_bar_plot <- function(l, group.order, center = (l$nlevels-1)/2 + 1, colors
 }
 
 # function for large & small 5 bar graphs
-graph_5bar <- function(variable){
+graph_5bar <- function(variable, plot_order = 0){
   likert_data <- likert_perc(character_data[[variable]], grouping = character_data$funder_names)
   
   large_5bar_plot <- likert_bar_plot(likert_data, 
@@ -199,7 +207,7 @@ graph_5bar <- function(variable){
                                      nlegend_char = 10, ngroup_char = 12, 
                                      xaxis_margin = 4, xaxis_ticks = 6, 
                                      legend_margin = 60, plot_margin_top = 100, plot_left_margin = 30, plot_margin_bottom = 100,
-                                     bar_width = .5)
+                                     bar_width = .5, plot_order)
   
   small_5bar_plot <- likert_bar_plot(likert_data, 
                                      group.order = levels(character_data$funder_names), 
@@ -210,7 +218,7 @@ graph_5bar <- function(variable){
                                      nlegend_char = 10, ngroup_char = 12, 
                                      xaxis_margin = 2, xaxis_ticks = 3, 
                                      legend_margin = 20, plot_margin_top = 50, plot_left_margin = 30, plot_margin_bottom = 50, 
-                                     bar_width = .5)
+                                     bar_width = .5, plot_order)
 
   file_name_large <- paste0(variable, 'large_5bar.png')
   file_name_small <- paste0(variable, 'small_5bar.png')
@@ -272,7 +280,7 @@ variables_2bars <- c('funder_mandate', 'id_peerreviewers', 'open_peerreview', 'o
 map(variables_2bars, graph_2bar)
 
 
-graph_5bar_longlegends <- function(variable, legend_chars){
+graph_5bar_longlegends <- function(variable, legend_chars, plot_order){
   likert_data <- likert_perc(character_data[[variable]], grouping = character_data$funder_names)
   
   large_5bar_plot <- likert_bar_plot(likert_data, 
@@ -284,7 +292,7 @@ graph_5bar_longlegends <- function(variable, legend_chars){
                                      nlegend_char = legend_chars, ngroup_char = 12, 
                                      xaxis_margin = 4, xaxis_ticks = 6, 
                                      legend_margin = 60, plot_margin_top = 100, plot_left_margin = 30, plot_margin_bottom = 100,
-                                     bar_width = .5)
+                                     bar_width = .5, plot_order)
   
   small_5bar_plot <- likert_bar_plot(likert_data, 
                                      group.order = levels(character_data$funder_names), 
@@ -295,7 +303,7 @@ graph_5bar_longlegends <- function(variable, legend_chars){
                                      nlegend_char = legend_chars, ngroup_char = 12, 
                                      xaxis_margin = 2, xaxis_ticks = 3, 
                                      legend_margin = 20, plot_margin_top = 50, plot_left_margin = 30, plot_margin_bottom = 50, 
-                                     bar_width = .5)
+                                     bar_width = .5, plot_order)
   
   file_name_large <- paste0(variable, 'large_5bar.png')
   file_name_small <- paste0(variable, 'small_5bar.png')
@@ -311,9 +319,9 @@ graph_5bar_longlegends <- function(variable, legend_chars){
 
 graph_5bar_longlegends('favors_established', 14)
 graph_5bar_longlegends('influence_funding', 14)
-graph_5bar_longlegends('influence_hiring', 14)
 graph_5bar_longlegends('other_libraries', 12)
 graph_5bar_longlegends('your_library', 12)
-graph_5bar_longlegends('publication_time', 14)
 graph_5bar_longlegends('subscription_vs_OA', 14)
+graph_5bar_longlegends('publication_time', 14, 1)
+graph_5bar_longlegends('influencing_hiring', 14, 1)
 
