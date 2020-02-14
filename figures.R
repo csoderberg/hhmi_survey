@@ -442,3 +442,50 @@ likert(as.data.frame(character_data$funder_mandate), grouping = fct_rev(characte
         plot.margin = margin(t = 280, l = 30, r = 30, b = 10, "pt"))
 dev.off()
 
+
+
+graph_5bar_longlegends <- function(variable, legend_chars){
+  likert_data <- likert_perc(character_data[[variable]], grouping = character_data$funder_names)
+  
+  large_5bar_plot <- likert_bar_plot(likert_data, 
+                                     group.order = levels(character_data$funder_names), 
+                                     center = (l$nlevels-1)/2 + 1, 
+                                     colors = c('#838286', '#AAAAAA', '#8ac341','#00a450', '#058d96'), 
+                                     geom_textsize = 16.93333, #48 * 0.352777778 since this text.size is in mm, not pt like microsoft and theme 
+                                     theme_textsize = 22, 
+                                     nlegend_char = legend_chars, ngroup_char = 12, 
+                                     xaxis_margin = 4, xaxis_ticks = 6, 
+                                     legend_margin = 60, plot_margin_top = 100, plot_left_margin = 30, plot_margin_bottom = 100,
+                                     bar_width = .5)
+  
+  small_5bar_plot <- likert_bar_plot(likert_data, 
+                                     group.order = levels(character_data$funder_names), 
+                                     center = (l$nlevels-1)/2 + 1, 
+                                     colors = c('#838286', '#AAAAAA', '#8ac341','#00a450', '#058d96'), 
+                                     geom_textsize = 10.58333, #30 * 0.352777778 since this text.size is in mm, not pt like microsoft and theme 
+                                     theme_textsize = 14, 
+                                     nlegend_char = legend_chars, ngroup_char = 12, 
+                                     xaxis_margin = 2, xaxis_ticks = 3, 
+                                     legend_margin = 20, plot_margin_top = 50, plot_left_margin = 30, plot_margin_bottom = 50, 
+                                     bar_width = .5)
+  
+  file_name_large <- paste0(variable, 'large_5bar.png')
+  file_name_small <- paste0(variable, 'small_5bar.png')
+  
+  png(file = file_name_large, width = 1340, height = 1004, res = 72)
+  print(large_5bar_plot)
+  dev.off()
+  
+  png(file = file_name_small, width = 670, height = 503, res = 72)
+  print(small_5bar_plot)
+  dev.off()
+}
+
+graph_5bar_longlegends('favors_established', 14)
+graph_5bar_longlegends('influence_funding', 14)
+graph_5bar_longlegends('influence_hiring', 14)
+graph_5bar_longlegends('other_libraries', 12)
+graph_5bar_longlegends('your_library', 12)
+graph_5bar_longlegends('publication_time', 14)
+graph_5bar_longlegends('subscription_vs_OA', 14)
+
