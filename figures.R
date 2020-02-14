@@ -14,7 +14,9 @@ character_data <- read_csv(here::here('hhmi_character_response.csv')) %>%
                   mutate(StartDate = mdy_hm(StartDate),
                          EndDate = mdy_hm(EndDate)) %>%
                   mutate(publication_time = fct_relevel(publication_time, "Much too short", "Slightly too short", 'Just the right amount of time', 'Slightly too long', 'Much too long'),
-                         favors_established =  fct_relevel(favors_established, "Does not at all favor established scientists", "Slightly favors established scientists", "Moderately favors established scientists", "Very much favors established scientists", "Extremely favors established scientists"),
+                         favors_established = fct_recode(favors_established, `Does not at all favor` = "Does not at all favor established scientists", `Slightly favors` = "Slightly favors established scientists",
+                                                         `Moderately favors` = "Moderately favors established scientists", `Very much favors` = "Very much favors established scientists", `Extremely favors` = "Extremely favors established scientists"),
+                         favors_established =  fct_relevel(favors_established, "Does not at all favor", "Slightly favors", "Moderately favors", "Very much favors", "Extremely favors"),
                          influence_hiring = fct_relevel(influence_hiring, "Much less than it should", "Slightly less than it should", "Just the right amount", "Slightly more than it should", "Much more than it should"),
                          influence_funding = fct_relevel(influence_funding,  "Much less than it should", "Slightly less than it should", "Just the right amount", "Slightly more than it should", "Much more than it should"),
                          influential_tenure = fct_relevel(influential_tenure, "Not at all influential", "Slightly influential", "Moderately influential", "Very influential", "Extremely influential"),
