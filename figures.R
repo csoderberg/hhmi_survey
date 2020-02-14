@@ -323,5 +323,5 @@ graph_5bar_longlegends('other_libraries', 12)
 graph_5bar_longlegends('your_library', 12)
 graph_5bar_longlegends('subscription_vs_OA', 14)
 graph_5bar_longlegends('publication_time', 14, 1)
-graph_5bar_longlegends('influencing_hiring', 14, 1)
+graph_5bar_longlegends('influence_hiring', 14, 1)
 
